@@ -1,49 +1,49 @@
 import "./App.css";
 
+import AvailablePlayers from "./components/AvailablePlayers/AvailablePlayers";
+import SelectedPlayers from "./components/SelectedPlayers/SelectedPlayers";
+import Navbar from "./components/Navbar/Navbar";
+import { Suspense, useState } from "react";
+
+const fetchPlayers = async () => {
+  const res = await fetch("/players.json");
+  return await res.json();
+};
+
 function App() {
+  const playerPromise = fetchPlayers();
+
+  const [toggle, setToggle] = useState(true);
+
   return (
     <>
-      <div className="navbar bg-base-100 shadow-sm">
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block h-5 w-5 stroke-current"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>{" "}
-            </svg>
+      <Navbar></Navbar>
+
+      <div className=" w-[1200px] mx-auto flex justify-between items-center">
+        <h1 className="font-bold text-2xl">Available players</h1>
+        <div className="font-bold">
+          <button onClick={() =>setToggle(true)}  className={`border-1 border-gray-400 rounded-l-xl py-3 px-4 border-r-0 text-black ${toggle===true?"bg-[#E7FE29]":""}`}>
+            Available
           </button>
-        </div>
-        <div className="flex-1">
-          <a className="btn btn-ghost text-xl">daisyUI</a>
-        </div>
-        <div className="flex-none">
-          <button className="btn btn-square btn-ghost">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block h-5 w-5 stroke-current"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-              ></path>{" "}
-            </svg>
+          <button onClick={() =>setToggle(false)} className={`border-1 border-gray-400 rounded-r-xl py-3 px-4 border-l-0 text-black ${toggle===false?"bg-[#E7FE29]":""}`}>
+            Selected <span>(0)</span>{" "}
           </button>
         </div>
       </div>
+
+      {toggle === true ? (
+          <Suspense
+            fallback={
+              <span className="loading loading-spinner loading-xl"></span>
+            }
+          >
+            <AvailablePlayers playerPromise={playerPromise}></AvailablePlayers>
+          </Suspense>
+        ) : (
+          <Suspense fallback={<h3></h3>}>
+            <SelectedPlayers></SelectedPlayers>
+          </Suspense>
+        )}
     </>
   );
 }
