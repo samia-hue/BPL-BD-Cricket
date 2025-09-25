@@ -3,7 +3,9 @@ import "./App.css";
 import AvailablePlayers from "./components/AvailablePlayers/AvailablePlayers";
 import SelectedPlayers from "./components/SelectedPlayers/SelectedPlayers";
 import Navbar from "./components/Navbar/Navbar";
+import Banner from "./components/Banner/Banner";
 import { Suspense, useState } from "react";
+ import { ToastContainer } from 'react-toastify';
 
 const fetchPlayers = async () => {
   const res = await fetch("/players.json");
@@ -48,6 +50,8 @@ function App() {
         </div>
       </div>
 
+      <Banner></Banner>
+
       {toggle === true ? (
         <Suspense
           fallback={
@@ -63,6 +67,8 @@ function App() {
           ></AvailablePlayers>
         </Suspense>
       ) : (<SelectedPlayers removePlayer={removePlayer} purchasedPlayer={purchasedPlayer}></SelectedPlayers>)}
+
+      <ToastContainer/>
     </>
   );
 }
