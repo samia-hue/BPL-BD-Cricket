@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Banner from "./components/Banner/Banner";
 import { Suspense, useState } from "react";
  import { ToastContainer } from 'react-toastify';
+import Footer from "./components/Footer/Footer";
 
 const fetchPlayers = async () => {
   const res = await fetch("/players.json");
@@ -67,6 +68,9 @@ function App() {
           ></AvailablePlayers>
         </Suspense>
       ) : (<SelectedPlayers removePlayer={removePlayer} purchasedPlayer={purchasedPlayer}></SelectedPlayers>)}
+
+
+      <Footer></Footer>
 
       <ToastContainer/>
     </>

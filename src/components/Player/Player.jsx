@@ -35,7 +35,7 @@ const Player = ({
  
 
   return (
-    <div className="card bg-white  shadow-sm text-black ">
+    <div className="card bg-white  shadow-xl text-black ">
       <figure>
         <img
           className=" h-[300px] object-cover"
